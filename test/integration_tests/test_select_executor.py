@@ -104,6 +104,7 @@ class SelectExecutorTest(unittest.TestCase):
 
         self.assertEqual(actual_batch, expected_batch)
 
+    def test_nested_select_video_in_table(self):
         nested_select_query = """SELECT id, data FROM
             (SELECT id, data FROM MyVideo WHERE id >= 2 AND id < 5)
             WHERE id >= 3;"""

@@ -12,18 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from enum import unique, IntEnum
+
+from src.optimizer.operators import OperatorType
+from typing import List
 
 
-@unique
-class PlanOprType(IntEnum):
-    SEQUENTIAL_SCAN = 1
-    STORAGE_PLAN = 2
-    PP_FILTER = 3
-    INSERT = 4
-    CREATE = 5
-    CREATE_UDF = 6
-    LOAD_DATA = 7
-    UNION = 8,
-    CREATE_MATERIALIZED_VIEW = 9
-    # add other types
+class Pattern:
+    def __init__(self, opr_type: OperatorType):
+        self._opr_type = opr_type
+        self._chilren = []
+
+    def append_child(self, child: 'Pattern'):
+        self._chilren.append(child)
+
+    @property
+    def children(self):
+        return self._chilren
+
+    @property
+    def opr_type(self):
+        return self._opr_type

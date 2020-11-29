@@ -12,18 +12,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from enum import unique, IntEnum
+from enum import IntEnum, auto
+
+class PropertyType(IntEnum):
+    # We don't have specific properties right now
+    # default is a proxy to represent no specific properties
+    DEFAULT = auto()
 
 
-@unique
-class PlanOprType(IntEnum):
-    SEQUENTIAL_SCAN = 1
-    STORAGE_PLAN = 2
-    PP_FILTER = 3
-    INSERT = 4
-    CREATE = 5
-    CREATE_UDF = 6
-    LOAD_DATA = 7
-    UNION = 8,
-    CREATE_MATERIALIZED_VIEW = 9
-    # add other types
+class Property:
+    def __init__(self, property_type):
+        self._property_type = property_type
+    
+    def property_type(self):
+        return self._property_type
+    
+    def __eq__(self, other):
+        return self.property_type == other.property_type
+    
+    def __hash__(self):
+        return hash(self._property_type)
