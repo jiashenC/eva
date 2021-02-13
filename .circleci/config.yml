@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-1604:202007-01
+    steps:
+      - run: 
+          name: Before Install
+          command: | 
+            sh script/install/before_install.sh
+      
+      - run:
+          name: Install
+          command: |
+            export PATH="$HOME/miniconda/bin:$PATH"
+            sh script/install/install.sh
+  test:
+    machine:
+      image: ubuntu-1604:202007-01
+    steps:
+      - run:
+          name: Pre-Test Setup
+          command: | 
+            conda init bash
+            source ~/.bashrc
+            conda activate eva
+      
+      - run:
+          name: Test
+          command: |
+            sh script/test/test.sh
+
+workflows:
+  main:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
