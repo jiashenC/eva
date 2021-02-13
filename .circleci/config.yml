@@ -6,31 +6,24 @@ jobs:
       image: ubuntu-1604:202007-01
     steps:
       - run: 
-          name: Before Install
           command: | 
+            echo "Build starts >>> >>>"
             sh script/install/before_install.sh
-      
-      - run:
-          name: Install
-          command: |
             export PATH="$HOME/miniconda/bin:$PATH"
             sh script/install/install.sh
+            echo "Build finishes"
   test:
     machine:
       image: ubuntu-1604:202007-01
     steps:
       - run:
-          name: Pre-Test Setup
           command: | 
+            echo "Test starts >>> >>>"
             conda init bash
             source ~/.bashrc
             conda activate eva
-      
-      - run:
-          name: Test
-          command: |
             sh script/test/test.sh
-
+            echo "Test finishes"
 workflows:
   main:
     jobs:
